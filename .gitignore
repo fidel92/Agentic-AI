@@ -1,0 +1,30 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+
+# --- Private data and generated files ---
+output/*
+!output/.gitkeep
+workspace/
+*Workspace/
+data/*
+!data/bid_data.xlsx
+!data/README.txt
+~$*.xlsx
+knowledge/*
+!knowledge/README.txt
+
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

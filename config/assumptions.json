@@ -1,0 +1,91 @@
+{
+  "_comment": "Estimator assumptions that are NOT in the workbook. Edit these to match your company's practice. Workbook values (unit costs, waste factors, labor rates, productivity, equipment rates, rules) are always read live from the Excel file.",
+  "agent": {
+    "model": "claude-sonnet-5-5",
+    "max_tokens": 8192,
+    "_note": "Any Claude model ID works, e.g. claude-opus-5-5 for deeper reasoning. Env var BID_AGENT_MODEL overrides."
+  },
+  "company": {
+    "name": "[Your Company Name]",
+    "address": "[Street, City, State ZIP]",
+    "phone": "[Phone]",
+    "email": "[Email]",
+    "estimator": "[Estimator Name]",
+    "bid_validity_days": 30
+  },
+  "workspace": null,
+  "_workspace_note": "Optional default workspace folder (data/, secrets/, output/). --workspace or BID_AGENT_WORKSPACE override it. null = use this agent folder.",
+  "workbook_path": "data/bid_data.xlsx",
+  "output_dir": "output",
+  "rounding": {
+    "rootzone_round_up_to_cy": 5,
+    "_note": "R-002: order quantities round up; rootzone rounds up to 5 CY like the sample bid lines. Other items round up to whole units."
+  },
+  "material_factors": {
+    "green_gravel_blanket_depth_in": 4,
+    "gravel_tons_per_cy": 1.4,
+    "trench_gravel_tons_per_lf": 0.03,
+    "bunker_sand_depth_in": 4,
+    "bunker_sand_tons_per_cy": 1.35,
+    "geotextile_sqft_per_drainage_lf": 3.0,
+    "irrigation_lf_per_sprinkler_head": 75,
+    "irrigation_lf_per_fittings_allowance": 1000,
+    "irrigation_mainline_fraction_by_type": {
+      "irrigation_renovation": 0.3
+    },
+    "gravel_blanket_project_types": [
+      "putting_green_renovation",
+      "new_putting_green"
+    ],
+    "geotextile_project_types": [
+      "drainage_renovation"
+    ],
+    "default_turf_material": "MAT-009"
+  },
+  "labor": {
+    "productive_hours_per_person_per_day": 6.5,
+    "paid_hours_per_day": 8,
+    "foremen_on_site": 1,
+    "use_type_min_crew": true,
+    "_note": "R-011: crew = productive task hours / productive hrs per person-day / duration, rounded up, then raised to the project-type minimum crew from Project_Type_Ranges. Paid crew time not covered by task hours is carried as a visible 'crew support & non-productive time' line at the general laborer rate."
+  },
+  "site_access_factor": {
+    "good": 1.0,
+    "moderate": 1.1,
+    "constrained": 1.25
+  },
+  "equipment": {
+    "excavator_cy_per_day": 150,
+    "excavator_drainage_lf_per_day": 600,
+    "excavator_import_cy_per_day": 200,
+    "skid_steer_share_of_duration": 0.6,
+    "dump_truck_earthwork_cy_per_day": 150,
+    "dump_truck_import_cy_per_day": 100,
+    "trencher_lf_per_day": 700,
+    "roller_sqft_per_day": 10000,
+    "roller_earthwork_cy_per_day": 400
+  },
+  "contingency": {
+    "base_by_site_access": {
+      "good": 0.075,
+      "moderate": 0.1,
+      "constrained": 0.125
+    },
+    "uncertainty_adder": 0.025,
+    "max_pct": 0.15,
+    "_note": "R-007: higher allowance when scope or site conditions are uncertain. Adder applies when the clarification gate trips or the request says to verify dimensions."
+  },
+  "markup": {
+    "method": "comparables_median",
+    "default_pct": 0.15,
+    "_note": "R-008: median overhead & profit markup of the closest historical comparables; falls back to default_pct."
+  },
+  "comparables": {
+    "k": 8,
+    "region_mismatch_penalty": 0.5,
+    "access_mismatch_penalty": 0.5,
+    "exclude_data_quality": [
+      "minor_scope_gap"
+    ]
+  }
+}
